@@ -3,8 +3,7 @@ retrieval:
   #es索引，用于和MySQL表同步和检索数据，默认mysql表和es索引同名
   index:
     #faq问答对
-    faq_pair: faq_pair
-    #标准问-相似问
+    faq-pair: faq_pair
   search:
     #搜索返回的最相关docs的个数
     size: 5

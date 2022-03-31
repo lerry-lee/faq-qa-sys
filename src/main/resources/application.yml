@@ -1,11 +1,11 @@
 server:
-  port: 8500
+  port: 1234
   servlet:
     context-path: /faq
 spring:
   #mysql连接
   datasource:
-    url: jdbc:mysql://122.112.242.241:3306/fqa_pair?characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://122.112.242.241:3306/faqdb?characterEncoding=utf8&useSSL=false&serverTimezone=UTC
     username: lca
     password: lerry_lca.MySQL
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -127,7 +127,7 @@ public class DialogueServiceImpl implements DialogueService {
         List<String> similarQuestionList = new ArrayList<>(total_counts);
         for (RetrievalDataModel retrievalDataModel : retrievalDataModelList) {
             questionList.add(question);
-            similarQuestionList.add(retrievalDataModel.getSimilarQuestion());
+            similarQuestionList.add(retrievalDataModel.getStandardQuestion());
         }
         List<Float> similarityScoreList = similarityService.similarityCalculation(questionList, similarQuestionList);
 
@@ -186,7 +186,6 @@ public class DialogueServiceImpl implements DialogueService {
                 //标准问同步到status
                 dialogueStatus.getAnswer().setStdQ(matchingDataModel.getStandardQuestion());
                 dialogueStatus.getAnswer().setConfidence(matchingDataModel.getConfidence());
-                dialogueStatus.getAnswer().setSimQ(matchingDataModel.getSimilarQuestion());
                 //若识别为多轮，则进入首轮多轮问答处理
                 if (bestAnswer.equals("多轮")) {
                     dialogueStatus = firstProcessMultiRound(dialogueStatus);
@@ -204,8 +203,8 @@ public class DialogueServiceImpl implements DialogueService {
             //其他的作为相关问题推荐
             else {
                 RecommendQuestion recommendQuestion = new RecommendQuestion();
-                recommendQuestion.setSimQ(matchingDataModel.getSimilarQuestion());
                 recommendQuestion.setStdQ(matchingDataModel.getStandardQuestion());
+                recommendQuestion.setStdA(matchingDataModel.getStandardAnswer());
                 recommendQuestion.setConfidence(matchingDataModel.getConfidence());
                 dialogueStatus.getRecommendQuestions().add(recommendQuestion);
             }

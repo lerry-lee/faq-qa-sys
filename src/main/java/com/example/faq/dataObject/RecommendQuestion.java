@@ -9,8 +9,6 @@ import lombok.Data;
  */
 @Data
 public class RecommendQuestion {
-    //相似问
-    private String simQ;
     //标准问
     private String stdQ;
     //标准答

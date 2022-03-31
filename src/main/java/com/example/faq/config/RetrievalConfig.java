@@ -2,11 +2,9 @@ package com.example.faq.config;
 
 import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.HashSet;
 
 /**
  * @Author: lerry_li
@@ -24,25 +22,9 @@ public class RetrievalConfig {
 
     public static class Index {
         @Getter
-        private String stdQStdA;
-        @Getter
-        private String stdQSimQ;
-        @Getter
-        @Setter
-        private HashSet<String> indexNames;
-
-        public Index() {
-            this.indexNames = new HashSet<>();
-        }
-
-        public void setStdQStdA(String stdQStdA) {
-            this.stdQStdA = stdQStdA;
-            this.indexNames.add(this.stdQStdA);
-        }
-
-        public void setStdQSimQ(String stdQSimQ) {
-            this.stdQSimQ = stdQSimQ;
-            this.indexNames.add(this.stdQSimQ);
+        private String faqPair;
+        public void setFaqPair(String faqPair){
+            this.faqPair=faqPair;
         }
     }
 

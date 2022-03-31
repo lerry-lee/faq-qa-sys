@@ -13,8 +13,6 @@ public class RetrievalDataModel {
     private String id;
     //问答对的qa_id
     private Integer qaId;
-    //相似问
-    private String similarQuestion;
     //标准问
     private String standardQuestion;
     //标准答

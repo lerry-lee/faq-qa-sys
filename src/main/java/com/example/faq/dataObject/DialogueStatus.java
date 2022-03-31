@@ -20,7 +20,7 @@ public class DialogueStatus implements Serializable {
     private String question;
     //本轮问答的状态码和解释
     private CodeMsg codeMsg;
-    //回答：回答的内容、对应的相似问、标准问、置信度
+    //回答：回答的内容、对应的标准问、置信度
     private Answer answer;
     //其他相似问题
     private List<RecommendQuestion> recommendQuestions;

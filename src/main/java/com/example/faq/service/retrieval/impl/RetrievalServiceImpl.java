@@ -56,7 +56,7 @@ public class RetrievalServiceImpl implements RetrievalService {
             return null;
         }
         //创建searchRequest
-        SearchRequest request = restClientUtil.getSearchRequest(RetrievalConfig.getIndex().getStdQSimQ(), "similar_question", question, RetrievalConfig.getSearch().getSize());
+        SearchRequest request = restClientUtil.getSearchRequest(RetrievalConfig.getIndex().getFaqPair(), "standard_question", question, RetrievalConfig.getSearch().getSize());
 
         //以同步方式搜索问题，等待搜索结果
         SearchResponse response;
@@ -90,23 +90,9 @@ public class RetrievalServiceImpl implements RetrievalService {
             retrievalDataModel.setId(id);
             retrievalDataModel.setRelevanceScore(score);
             retrievalDataModel.setStandardQuestion((String) sourceAsMap.get("standard_question"));
-            retrievalDataModel.setSimilarQuestion((String) sourceAsMap.get("similar_question"));
+            retrievalDataModel.setStandardAnswer((String) sourceAsMap.get("standard_answer"));
             Integer qaId = (Integer) sourceAsMap.get("qa_id");
             retrievalDataModel.setQaId(qaId);
-
-            //根据qaId搜索问答知识库，一个qaId只能对应一个标准问
-            request = restClientUtil.getSearchRequest(RetrievalConfig.getIndex().getStdQStdA(), "qa_id", qaId, 1);
-            try {
-                response = client.search(request, RequestOptions.DEFAULT);
-            } catch (ElasticsearchException e) {
-                e.printStackTrace();
-                return null;
-            }
-
-            SearchHit hit_ = response.getHits().getHits()[0];
-            //遍历docs中的数据
-            Map<String, Object> sourceAsMap_ = hit_.getSourceAsMap();
-            retrievalDataModel.setStandardAnswer((String) sourceAsMap_.get("standard_answer"));
 
             retrievalDataModelList.add(retrievalDataModel);
         }

@@ -1,0 +1,45 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "analysis": {
+      "filter": {
+        "my_synonym_filter": {
+          "type": "synonym",
+          "updateable": true,
+          "synonyms_path": "analysis/synonym.txt"
+        }
+      },
+      "analyzer": {
+        "ik_synonym": {
+          "tokenizer": "ik_smart",
+          "filter": [
+            "my_synonym_filter"
+          ]
+        },
+        "ik_synonym_max": {
+          "tokenizer": "ik_max_word",
+          "filter": [
+            "my_synonym_filter"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "qa_id": {
+        "type": "integer"
+      },
+      "standard_question": {
+        "type": "text",
+        "analyzer": "ik_synonym_max",
+        "search_analyzer": "ik_synonym_max"
+      },
+      "standard_answer": {
+        "type": "text",
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart"
+      }
+    }
+  }
+}

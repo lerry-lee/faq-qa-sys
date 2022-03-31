@@ -14,8 +14,6 @@ import java.util.List;
 public class Answer {
     //答案内容
     private String content;
-    //对应的相似问
-    private String simQ;
     //相似问对应的标准问
     private String stdQ;
     //置信度
