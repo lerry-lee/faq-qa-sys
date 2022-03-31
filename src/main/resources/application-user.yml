@@ -1,0 +1,45 @@
+#检索配置
+retrieval:
+  #es索引，用于和MySQL表同步和检索数据，默认mysql表和es索引同名
+  index:
+    #faq问答对
+    faq_pair: faq_pair
+    #标准问-相似问
+  search:
+    #搜索返回的最相关docs的个数
+    size: 5
+  #存放常用elasticsearch API的路径
+  elasticsearch-API-path: data/elasticsearch_API
+
+#相似度计算配置
+similarity:
+  #模型1（如有多种相似度模型，可往后追加并修改配置类com/example/qa/config/SimilarityConfig.java）
+  model-1:
+    request-url: http://[::1]:6100/calculate_similarity
+
+#对话配置
+dialogue:
+  #置信度排序
+  confidence-rank:
+    #返回的置信度最高的doc的个数
+    size: 5
+    #置信度计算权重
+    weights:
+      #相关度权重
+      relevance-weight: 0.3
+      #相似度权重
+      similarity-weight: 0.7
+
+  #用户对话状态
+  status:
+    #过期时间(单位: minute)
+    expire-time: 2
+  #多轮问答树
+  multi-turn-qa:
+    path: data/multi_turn_qa
+  #redis热点数据缓存
+  hot-data:
+    #是否开启
+    open: true
+    #过期时间(单位: minute)
+    expire-time: 5
