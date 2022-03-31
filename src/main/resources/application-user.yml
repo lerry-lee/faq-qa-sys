@@ -13,9 +13,7 @@ retrieval:
 
 #相似度计算配置
 similarity:
-  #模型1（如有多种相似度模型，可往后追加并修改配置类com/example/qa/config/SimilarityConfig.java）
-  model-1:
-    request-url: http://[::1]:6100/calculate_similarity
+  request-url: http://[::1]:6100/calculate_similarity
 
 #对话配置
 dialogue:

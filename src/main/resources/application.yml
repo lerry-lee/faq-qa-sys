@@ -13,14 +13,13 @@ spring:
     throw-exception-if-no-handler-found: true
   #redis连接
   redis:
-    host: 122.112.242.241
+    host: localhost
     port: 6379
     database: 6
     jedis:
       pool:
         max-active: 50
         min-idle: 20
-    password: lerry_lca.Redis
   #引入自定义配置，application-user.yml
   profiles:
     include:
@@ -28,7 +27,5 @@ spring:
 
 #es连接
 elasticsearch:
-  #节点1(若有集群，可往后追加，并修改配置类ElasticsearchConfig.java)
-  node-1:
-    host: localhost
-    port: 9200
+  host: localhost
+  port: 9200
