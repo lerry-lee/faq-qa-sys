@@ -34,4 +34,24 @@
 
 ## 环境搭建
 
+### MySQL
+
+1. 建库
+
+```shell
+# 在mysql命令行执行下面建库语句
+CREATE DATABASE IF NOT EXISTS faqdb DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+```
+
+3. 导入表数据
+
+```shell
+# 到sql/路径下，可以看faqdb.sql，在mysql命令行执行下面语句
+source faqdb.sql;
+```
+
 ## 启动步骤
+
+## 测试
+
+打开浏览器访问`http://localhost:1234/faq/swagger-ui/`可以查看全部接口并进行测试；

@@ -12,7 +12,8 @@ retrieval:
 
 #相似度计算配置
 similarity:
-  request-url: http://[::1]:6100/calculate_similarity
+  request-url: http://202.115.16.88:6100/calculate_similarity
+#  request-url: http://[::1]:6100/calculate_similarity
 
 #对话配置
 dialogue:
