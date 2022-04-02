@@ -1,10 +1,14 @@
 package com.example.faq.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.example.faq.config.DialogueConfig;
 import com.example.faq.config.ElasticsearchConfig;
 import com.example.faq.config.RetrievalConfig;
+import com.example.faq.dataObject.MultiQaTreeNode;
 import com.example.faq.entity.FaqPair;
 import com.example.faq.mapper.FaqPairMapper;
 import com.example.faq.service.ManagementService;
+import com.example.faq.util.RedisUtil;
 import com.example.faq.util.RestClientUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -44,10 +48,16 @@ public class ManagementServiceImpl implements ManagementService {
     private RetrievalConfig retrievalConfig;
 
     @Autowired
+    private DialogueConfig dialogueConfig;
+
+    @Autowired
     private FaqPairMapper faqPairMapper;
 
     @Autowired
     private RestClientUtil restClientUtil;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     public int totalSynchronize(String tableIndexName) throws IOException {
@@ -111,6 +121,53 @@ public class ManagementServiceImpl implements ManagementService {
         return account;
     }
 
+    @Override
+    public int updateMultiTree() {
+        String path = dialogueConfig.getMultiTurnQa().getPath();
+        //遍历多轮问答树的路径
+        File dir = new File(dialogueConfig.getMultiTurnQa().getPath());
+        if (!dir.exists()) {
+            log.error("多轮问答树的路径{}不存在", path);
+            return 0;
+        }
+        if (!dir.isDirectory()) {
+            log.error("多轮问答树的路径{}不是一个目录", path);
+            return 0;
+        }
+        String[] files = dir.list();
+        if (files == null) {
+            log.error("{}路径下无任何文件", path);
+            return 0;
+        }
+        //将文件转换为对象，更新到redis中
+
+        //建立question到qaId的唯一映射
+        HashMap<String, Integer> question2id = new HashMap<>();
+
+        int NumsOfTreeNode = files.length;
+        int accout = 0;
+        for (String file : files) {
+            String filePath = dir + "/" + file;
+            //将json文件转换为java对象
+            MultiQaTreeNode node = readFileToObject(filePath);
+            if (node == null) {
+                log.error("读取多轮问答树{}出错，跳过", filePath);
+                continue;
+            }
+            int qaId = node.getQaId();
+            question2id.put(node.getQuestion(), qaId);
+            //设置多轮问答树的qaId的为key
+            redisUtil.set(dialogueConfig.getMQATreeKeyPrefix() + qaId, node);
+            accout++;
+        }
+
+        redisUtil.set(dialogueConfig.getMQAQuestion2idKey(), question2id);
+
+        //返回更新的多轮问答树的总数
+        log.info("已更新{}个多轮问答树到redis中", accout);
+        return NumsOfTreeNode;
+    }
+
     /**
      * 读取保存常用esAPI的json文件
      *
@@ -149,6 +206,25 @@ public class ManagementServiceImpl implements ManagementService {
         }
 
         return jsonData;
+    }
+
+    /**
+     * 读取多轮问答树文件，转换为对象
+     *
+     * @return MultiQaTreeNode
+     */
+    public MultiQaTreeNode readFileToObject(String file) {
+        String jsonData;
+        //读取多轮问答树json文件
+        try {
+            jsonData = FileUtils.readFileToString(new File(file), String.valueOf(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        //转换为MultiQaTreeNode多轮问答树对象
+        return JSONObject.parseObject(jsonData, MultiQaTreeNode.class);
     }
 
 }

@@ -15,4 +15,10 @@ public interface ManagementService {
      * @return 成功操作的数据总数
      */
     int totalSynchronize(String tableIndexName) throws IOException;
+
+    /**
+     * 更新多轮问答树到redis
+     * @return 成功更新的数量
+     */
+    int updateMultiTree();
 }

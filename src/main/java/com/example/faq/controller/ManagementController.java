@@ -1,5 +1,6 @@
 package com.example.faq.controller;
 
+import com.example.faq.config.DialogueConfig;
 import com.example.faq.config.RetrievalConfig;
 import com.example.faq.response.CommonReturnType;
 import com.example.faq.service.ManagementService;
@@ -32,14 +33,14 @@ public class ManagementController {
     @Autowired
     private RetrievalConfig retrievalConfig;
 
-
     /**
-     * 全量同步，将mysql中的一张表全部同步到redis中
+     * 全量同步，将mysql中的faq_pair表全部同步到redis中
      */
     @ApiOperation("全量同步")
     @RequestMapping(value = "/total_synchronize", method = RequestMethod.GET)
-    public CommonReturnType totalSynchronize(@ApiParam("表/索引名") @RequestParam(name = "table_index_name") String tableIndexName) throws IOException {
+    public CommonReturnType totalSynchronize() throws IOException {
 
+        String tableIndexName="faq_pair";
         //检查表/索引名是否有效
         if (!retrievalConfig.getIndex().getFaqPair().equals(tableIndexName)) {
             log.error("{}不在可以同步的表/索引中", tableIndexName);
@@ -57,5 +58,16 @@ public class ManagementController {
         }
 
         return CommonReturnType.success(String.format("成功同步mysql表%s中%d条数据到es索引%s，耗时%dms", tableIndexName, account, tableIndexName, stopWatch.getTotalTimeMillis()));
+    }
+
+
+    @ApiOperation("更新多轮问答树")
+    @RequestMapping(value = "/update_multi_turn_qa_tree", method = RequestMethod.GET)
+    public CommonReturnType updateMultiRoundQATree() {
+        int account = managementService.updateMultiTree();
+        if (account == 0) {
+            return CommonReturnType.failed(null);
+        }
+        return CommonReturnType.success(String.format("成功更新%d个多轮问答树到redis", account));
     }
 }

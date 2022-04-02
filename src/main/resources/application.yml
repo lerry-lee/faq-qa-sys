@@ -5,9 +5,9 @@ server:
 spring:
   #mysql连接
   datasource:
-    url: jdbc:mysql://202.115.16.88:3306/faqdb?characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/faqdb?characterEncoding=utf8&useSSL=false&serverTimezone=UTC
     username: root
-    password: 123456
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
     throw-exception-if-no-handler-found: true

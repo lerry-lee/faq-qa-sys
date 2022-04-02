@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 public class DialogueConfig {
     private ConfidenceRank confidenceRank;
     private Status status;
-    private MultiRoundQa multiRoundQa;
+    private MultiRoundQa multiTurnQa;
     private HotData hotData;
 
     //redis中多轮问答树的key前缀

@@ -6,7 +6,7 @@ retrieval:
     faq-pair: faq_pair
   search:
     #搜索返回的最相关docs的个数
-    size: 5
+    size: 30
   #存放常用elasticsearch API的路径
   elasticsearch-API-path: data/elasticsearch_API
 

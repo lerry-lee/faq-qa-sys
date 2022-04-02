@@ -1,0 +1,38 @@
+{
+  "qaId": 3,
+  "question": "推荐一个景点",
+  "answer": "好的，请问对景点评分有要求吗",
+  "childNodes": [
+    {
+      "question": "没要求",
+      "answer": "好的，请问景点票价可接受范围？",
+      "childNodes": [
+        {
+          "question": "免费",
+          "answer": "附近好多公园呢，比如xxx，今天天气不错，可以去转转。",
+          "childNodes": []
+        },
+        {
+          "question": "50元以内",
+          "answer": "这个xx不错，自然风光秀丽，离您也不远。",
+          "childNodes": []
+        },
+        {
+          "question": "无所谓，不差钱",
+          "answer": "推荐xxx景点给您呢，该景点绝对符合您的气质",
+          "childNodes": []
+        }
+      ]
+    },
+    {
+      "question": "3分以上",
+      "answer": "可玩的就比较多了，有xx...",
+      "childNodes": []
+    },
+    {
+      "question": "5分",
+      "answer": "在xx那有一处5A景区，评分有5分呢，推荐您去玩哈。",
+      "childNodes": []
+    }
+  ]
+}
